@@ -8,15 +8,18 @@
 #Updated by @germelmann and copilot for RPM-based distributions
 ##################################################
 
-[ $USER != 'root' ] && exec sudo "$0"
+[ $USER != 'root' ] && exec sudo -E "$0"
 
 LOGIN_USER=$(logname)
 [ -z "$LOGIN_USER" ] && LOGIN_USER=$(who | head -1 | awk '{print $1}')
 
-if [ -f ~/.config/user-dirs.dirs ]; then
-	source ~/.config/user-dirs.dirs
+USER_HOME=$(getent passwd "$LOGIN_USER" | cut -d: -f6)
+
+if [ -f "$USER_HOME/.config/user-dirs.dirs" ]; then
+	XDG_DESKTOP_DIR=$(grep XDG_DESKTOP_DIR "$USER_HOME/.config/user-dirs.dirs" | cut -d= -f2 | tr -d '"' | sed "s|\$HOME|$USER_HOME|")
+	[ -z "$XDG_DESKTOP_DIR" ] && XDG_DESKTOP_DIR="$USER_HOME/Desktop"
 else
-	XDG_DESKTOP_DIR="$HOME/Desktop"
+	XDG_DESKTOP_DIR="$USER_HOME/Desktop"
 fi
 
 DRIVER_VERSION='2.71-1'
