@@ -175,25 +175,11 @@ function canon_install() {
 	fi
 	# Install dependencies
 	if command -v dnf >/dev/null; then
-		dnf install -y libglade2 gtk2 libcanberra-gtk2 popt
-		dnf install -y popt popt-devel
+		dnf install -y libglade2 gtk2 libcanberra-gtk2 popt popt.i686
 	elif command -v yum >/dev/null; then
-		yum install -y libglade2 gtk2 libcanberra-gtk2 popt
-		yum install -y popt popt-devel
+		yum install -y libglade2 gtk2 libcanberra-gtk2 popt popt.i686
 	elif command -v zypper >/dev/null; then
-		zypper install -y libglade2 gtk2 libcanberra-gtk2 popt
-		zypper install -y popt popt-devel
-	fi
-	# Ensure libpopt.so.0 is present
-	if ! ldconfig -p | grep -q libpopt.so.0; then
-		echo "libpopt.so.0 not found, trying to install popt library."
-		if command -v dnf >/dev/null; then
-			dnf install -y popt popt-devel
-		elif command -v yum >/dev/null; then
-			yum install -y popt popt-devel
-		elif command -v zypper >/dev/null; then
-			zypper install -y popt popt-devel
-		fi
+		zypper install -y libglade2 gtk2 libcanberra-gtk2 popt popt-32bit
 	fi
 	echo 'Installing common module for CUPS driver'
 	rpm -Uvh --force $COMMON_FILE
