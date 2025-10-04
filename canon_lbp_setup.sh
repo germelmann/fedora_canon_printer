@@ -175,11 +175,11 @@ function canon_install() {
 	fi
 	# Install dependencies
 	if command -v dnf >/dev/null; then
-		dnf install -y libglade2 gtk2 libcanberra-gtk2
+		dnf install -y libglade2 gtk2 libcanberra-gtk2 popt
 	elif command -v yum >/dev/null; then
-		yum install -y libglade2 gtk2 libcanberra-gtk2
+		yum install -y libglade2 gtk2 libcanberra-gtk2 popt
 	elif command -v zypper >/dev/null; then
-		zypper install -y libglade2 gtk2 libcanberra-gtk2
+		zypper install -y libglade2 gtk2 libcanberra-gtk2 popt
 	fi
 	echo 'Installing common module for CUPS driver'
 	rpm -Uvh --force $COMMON_FILE
